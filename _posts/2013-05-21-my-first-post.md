@@ -18,23 +18,29 @@ I'm glad I've gotten around to doing this since I've been solving problems I thi
 - [Xmonad](http://xmonad.org) (Awesome (haha) tiling window manager I can't live without)
 
 ##[Python](http://python.org) (use at work)
+{% highlight python %}
     print "I use python at work"
+{% endhighlight %}
 - [Django](http://djangoproject.com)
 - [Django Rest Framework](http://django-rest-framework.org)
 
 ##[Go](http://golang.com) (use at work)
+{% highlight go %}
     import "fmt"
     func main() {
         fmt.Println("I use go at work, too ;)")
     }
+{% endhighlight %}
 - Web Development
 - Game development (hopefully)
 
 ##[Racket](http://racket-lang.org)
-    ; I wanted to do something creative like making a self recursive expression to say "I use racket for fun"
-    ; but this simple one will have to do.
+{% highlight racket %}
+    ; I wanted to do something creative like making a self recursive expression
+    ; to say "I use racket for fun", but this simple one will have to do.
     (displayln 
         "I primarily use racket for fun and personal projects currently, but that will probably change soon")
+{% endhighlight %}
 - Web Development
 - Trying to figure out how in the world to implement [Automatically RESTful Web Applications: Marking Modular Serializable Continuations](http://vimeo.com/6627041)
 
@@ -50,7 +56,9 @@ I'm glad I've gotten around to doing this since I've been solving problems I thi
 - Problems I face, and solutions I come up with.
 
 ##[Javascript/Ecmascript](http://www.ecmascript.org/)
+{% highlight javascript %}
     document.write("Javascript isn't my biggest friend atm, need to read 'The good parts' ;)");
+{% endhighlight %}
 - [Angular.js](http://angularjs.org) (Most of my javascript work will probably be in angular)
 
 I've spent far too much time on this and I don't even know if anyone will see it! I think that
