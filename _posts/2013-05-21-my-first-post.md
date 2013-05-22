@@ -45,7 +45,7 @@ I'm glad I've gotten around to doing this since I've been solving problems I thi
 - Trying to figure out how in the world to implement [Automatically RESTful Web Applications: Marking Modular Serializable Continuations](http://vimeo.com/6627041)
 
 ##[Vim](http://vim.org) (use everywhere, including now)
-- My config (TODO: Add your config, Cody...)
+- [My config](http://github.com/codygman/dotvim)
 - Most used shortcuts
 - New tricks
 - Plugins
