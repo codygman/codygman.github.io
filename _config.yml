@@ -12,10 +12,10 @@ pygments: true
 title : Codygman's Blog
 tagline: Linux, Programming, ...
 author : Cody Goodman
-  name : Cody Goodman
-  email : codygman.consulting@gmail.com
-  github : codygman
-  feedburner : feedname
+name : Cody Goodman
+email : codygman.consulting@gmail.com
+github : codygman
+feedburner : feedname
 
 # The production_url is only used when full-domain names are needed
 # such as sitemap.txt 
