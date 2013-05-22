@@ -62,5 +62,5 @@ I'm glad I've gotten around to doing this since I've been solving problems I thi
 - [Angular.js](http://angularjs.org) (Most of my javascript work will probably be in angular)
 
 I've spent far too much time on this and I don't even know if anyone will see it! I think that
-covers things for now. I'll be submitting posts which seem interesting/helpful to (HackerNews)[http://news.ycombinator.com] for discussion in the future.
+covers things for now. I'll be submitting posts which seem interesting/helpful to [Hacker News](https://news.ycombinator.com/) for discussion in the future.
 Submitting this one seems too 'promotioney' and adds no value imo.
