@@ -17,11 +17,15 @@ print len(urllib.urlopen("http://www.reddit.com").read().split())
 Very succinct code that does what I need it to. I've been using haskell lately though and wondered what it's solution would look like. First I wrote a very imperative version:
 
 {% highlight haskell %}
-main = putStrLn "Enter a url: "
-     url <- getLine
-     pageText <- C.simpleHttp url
-     let pageTextCount = length . words . BCL.unpack $ pageText
-     print $ "There are " ++ show pageTextCount ++ " words!"
+import Network.HTTP.Conduit
+import qualified Data.ByteString.Lazy.Char8 as BCL
+
+main =do
+  putStrLn "Enter a url: "
+  url <- getLine
+  pageText <- simpleHttp url
+  let pageTextCount = length . words . BCL.unpack $ pageText
+  print $ "There are " ++ show pageTextCount ++ " words!"
 {% endhighlight %}
 
 This isn't nearly as short as the python version, but its still pretty understandable to most. Having to unpack the lazy bytestring might throw a few off, but everything else is straightforward. After writing this, I realized I could use bind and functional composition to shorten things up even more than python!
