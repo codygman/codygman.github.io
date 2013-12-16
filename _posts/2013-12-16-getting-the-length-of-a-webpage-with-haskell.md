@@ -12,7 +12,7 @@ I was wanting to see how many words were on a webpage today, so I opened up a py
 {% highlight python %}
 import urllib
 webpage_content = urllib.urlopen("http://www.reddit.com").read()
-words = webpage_content.split())
+words = webpage_content.split()
 print len(words)
 {% endhighlight %}
 
