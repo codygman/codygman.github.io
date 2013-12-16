@@ -20,7 +20,6 @@ Very succinct code that does what I need it to. I've been using haskell lately t
 import Network.HTTP.Conduit
 import qualified Data.ByteString.Lazy.Char8 as BCL
 
-main :: IO ()
 main = do
   putStrLn "Enter a url: "
   url <- getLine
