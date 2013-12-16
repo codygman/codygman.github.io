@@ -11,7 +11,9 @@ I was wanting to see how many words were on a webpage today, so I opened up a py
 
 {% highlight python %}
 import urllib
-print len(urllib.urlopen("http://www.reddit.com").read().split())
+webpage_content = urllib.urlopen("http://www.reddit.com").read()
+words = webpage_content.split())
+print len(words)
 {% endhighlight %}
 
 Very succinct code that does what I need it to. I've been using haskell lately though and wondered what it's solution would look like. First I wrote a very imperative version:
