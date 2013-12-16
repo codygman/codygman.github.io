@@ -10,8 +10,8 @@ tags: []
 I was wanting to see how many words were on a webpage today, so I opened up a python interpreter and typed in the following code:
 
     {% highlight python %}
-    import urllib; len(urllib.urlopen("http://www.reddit.com").read().split())
-    # returns 6389
+    import urllib
+	print len(urllib.urlopen("http://www.reddit.com").read().split())
     {% endhighlight %}
 
 Very succinct code that does what I need it to. I've been using haskell lately though and wondered what it's solution would look like. First I wrote a very imperative version:
@@ -28,7 +28,7 @@ This isn't nearly as short as the python version, but its still pretty understan
 
     {% highlight haskell %}
     import Network.HTTP.Conduit
-    import qualifed Data.ByteString.Lazy.Char8 as BCL
+    import qualified Data.ByteString.Lazy.Char8 as BCL
     main = getLine >>= simpleHttp >>= print . length . BCL.words
     {% endhighlight %}
 
