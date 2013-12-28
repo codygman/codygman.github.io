@@ -8,6 +8,8 @@
 - Announce starting the "build yourself a scheme" tutorial and when I plan on finishing it (after doing the first lesson)
 - Installing steamos session on debian wheezy the right way
 - ML, Lisp, and Algol-60: The latin of programming languages (needs more discussion/research before posting)
+- The underused python splat operator
+- Tool to analyze pip requirements files (maybe gem requirements too?) and see if your requirements are available from your distro package repo
 
 
 ## TODO:
