@@ -10,6 +10,7 @@
 - ML, Lisp, and Algol-60: The latin of programming languages (needs more discussion/research before posting)
 - The underused python splat operator
 - Tool to analyze pip requirements files (maybe gem requirements too?) and see if your requirements are available from your distro package repo
+- Firefox history, sqlite3, and opening previous sessions
 
 
 ## TODO:
