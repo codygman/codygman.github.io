@@ -15,7 +15,7 @@ I read the description and went to the most top level namespace called [Graphics
 
 However, there was the problem of the imports not being listed in the examples that took me a good 10-15 minutes to figure out. I tried to Hoogle the functions first. However it appears [Hoogle has indexed the HPDF package](http://www.haskell.org/hoogle/?hoogle=Graphics.PDF), but searching for something like PDFRect doesn't work. If I had remembered it's name, I would have remembered to [search Hayoo and it would have found everything I needed](http://holumbus.fh-wedel.de/hayoo/hayoo.html?query=Graphics.PDF). It wasn't wasted since I learned the format of the library, but it kept me from getting my task done quickly.
 
-**Protip: Use Hayoo instead of Hoogle
+**Protip: Use Hayoo instead of Hoogle**
 
 So here I am, just going through the package with examples and I just can't find the imports. I feel really dumb, but then I see something about a github for the project. I search "github HPDF" and [duckduckgo finds it for me](https://github.com/alpheccar/HPDF)
 
