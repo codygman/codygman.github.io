@@ -36,5 +36,4 @@ main = getLine >>=  print . (read :: [Int])
 {% endhighlight %}
 
 However I was met with the type error:
-{% highlight shell %}
-{% endhighlight %}
+
