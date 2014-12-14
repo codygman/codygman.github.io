@@ -1,3 +1,6 @@
+[user]
+	name = Cody Goodman
+	email = codygman.consulting@gmail.com
 [submodule "_site"]
 	path = _site
 	url = git@github.com:codygman/codygman.github.io.git
