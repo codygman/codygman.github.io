@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    
+    <title>A simple and quick text parsing tutorial using Haskell </title>
+    <meta name="description" content="My Site" />
+    
+    
+    <meta property="og:description" content="My Site" />
+    <meta property="og:title" content="My Site">
+    
+
+    <link rel="shortcut icon" href />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <!--<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">/-->
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic|Open+Sans:700,400" />
+
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" class="home-template">
+    <div class="pure-g-r" id="layout">
+        
+        <div class="sidebar pure-u">
+            <header class="header">
+                <hgroup>
+                    
+                    <h1 itemprop="name" class="blog-title"><a href="../">Codygman's Blog</a></h1>
+                    <h2 itemprop="description" class="blog-description">programming stuff.</h2>
+                </hgroup><br /><br />
+                
+                <a href="../index.html">Home</a> |
+                <a href="../about.html">About</a> |
+                <a href="../archive.html">Archive</a>
+                <br /><br />
+                
+                <nav class="nav">
+                <ul class="social-list">
+                    
+		  <li class="social-item"><a class="subscribe icon-github" href="http://www.github.com/codygman" target="_blank"></a></li>&nbsp;
+		                     	<li class="social-item"><a class="subscribe icon-twitter" href="http://www.twitter.com/codygman" target="_blank"></a></li>&nbsp;
+			                      <li class="social-item"><a class="subscribe icon-linkedin" href="https://www.linkedin.com/profile/view?id=80150290" target="_blank" rel="publisher"></a></li>&nbsp;
+                    <!-- <li class="social-item">&nbsp;</li> -->
+                    <!-- <li class="social-item"><a class="subscribe icon-feed" href="http://zach.oglesby.co/rss/" target="_blank"></a></li> -->
+                </ul>
+                </nav>
+
+            </header>
+            <footer class="footer">
+             <section class="copyright">&copy; 2015 <a itemscope="copyrightHolder" href="../">Cody Goodman</a></section>
+             <section class="poweredby">Proudly generated with <a href="http://jaspervdj.be/hakyll/" target="_blank">Hakyll</a></section> 
+             <section class="theme"><a href="https://github.com/zoglesby/hakyll-purity">Based</a> on <a href="https://github.com/mseri/purity" target="_blank">Purity</a> built with <a href="http://purecss.io" target="_blank">PureCSS</a></section>
+            </footer>
+            
+        </div>
+        <div class="pure-u-1 container">
+            
+            
+
+
+
+
+<main class="content" role="main">
+
+    
+    <h2>A simple and quick text parsing tutorial using Haskell</h2>
+<div class="info">
+    Posted on March  6, 2015
+    
+</div>
+<br />
+
+<p>I was just browsing <a href="http://www.news.ycombinator.com">Hacker News</a> yesterday and came across a simple whitespace delimited ascii chart:</p>
+<pre><code>              perf3                   perf3 / 
+              macros      chars       chars * 100
+  -------------------------------------------------
+  scala       15963       24885       64,15
+  nim         11121       20263       54,88
+  java        17969       53223       33,76
+  ocaml       7063        24371       28,98
+  coffee      2326        15653       14,86
+  racket      2461        17229       14,28
+  cs          5414        45039       12,02
+  clojure     1174        10099       11,62
+  ruby        1255        13247       9,47
+  go          3048        36321       8,39
+  vb          4523        58099       7,78
+  rust        4084        56516       7,23
+  js          1726        26437       6,53
+  c           3649        73047       5,00
+  haskell     1163        30115       3,86
+  python      304         19632       1,55
+  forth       563         44715       1,26
+  php         331         27332       1,21</code></pre>
+<p>You may notice that this is sorted by the last column “perf3/chars * 100”. I simply wanted to play with the table and sort on the “perf3 macros” and “chars” columns. I started to open up Calc and paste in the table above to a csv document to do this, but thought it would be a great time to sharpen my Haskell skills for a small real world task.</p>
+<p>So how do we make sense of the above chart? I’m going to start by saving the chart above into a file named “langstats.txt”. Next we can read the file into a string using the <code>readFile</code> function and then “pipe” the results with =&lt;&lt; to the print function.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> print <span class="fu">=&lt;&lt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+<span class="st">&quot;              perf3                   perf3 / \n              macros      chars       chars * 100\n  -------------------------------------------------\n  scala       15963       24885       64,15\n  nim         11121       20263       54,88\n  java        17969       53223       33,76\n  ocaml       7063        24371       28,98\n  coffee      2326        15653       14,86\n  racket      2461        17229       14,28\n  cs          5414        45039       12,02\n  clojure     1174        10099       11,62\n  ruby        1255        13247       9,47\n  go          3048        36321       8,39\n  vb          4523        58099       7,78\n  rust        4084        56516       7,23\n  js          1726        26437       6,53\n  c           3649        73047       5,00\n  haskell     1163        30115       3,86\n  python      304         19632       1,55\n  forth       563         44715       1,26\n  php         331         27332       1,21\n&quot;</span></code></pre>
+<p>Oh, they are all sorted by newlines first of all. What is the function to turn newline separated text into a list in Haskell? It’s the aptlay named lines function from Data.List!</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="st">&quot;              perf3                   perf3 / &quot;</span>,<span class="st">&quot;              macros      chars       chars * 100&quot;</span>,<span class="st">&quot;  -------------------------------------------------&quot;</span>,<span class="st">&quot;  scala       15963       24885       64,15&quot;</span>,<span class="st">&quot;  nim         11121       20263       54,88&quot;</span>,<span class="st">&quot;  java        17969       53223       33,76&quot;</span>,<span class="st">&quot;  ocaml       7063        24371       28,98&quot;</span>,<span class="st">&quot;  coffee      2326        15653       14,86&quot;</span>,<span class="st">&quot;  racket      2461        17229       14,28&quot;</span>,<span class="st">&quot;  cs          5414        45039       12,02&quot;</span>,<span class="st">&quot;  clojure     1174        10099       11,62&quot;</span>,<span class="st">&quot;  ruby        1255        13247       9,47&quot;</span>,<span class="st">&quot;  go          3048        36321       8,39&quot;</span>,<span class="st">&quot;  vb          4523        58099       7,78&quot;</span>,<span class="st">&quot;  rust        4084        56516       7,23&quot;</span>,<span class="st">&quot;  js          1726        26437       6,53&quot;</span>,<span class="st">&quot;  c           3649        73047       5,00&quot;</span>,<span class="st">&quot;  haskell     1163        30115       3,86&quot;</span>,<span class="st">&quot;  python      304         19632       1,55&quot;</span>,<span class="st">&quot;  forth       563         44715       1,26&quot;</span>,<span class="st">&quot;  php         331         27332       1,21&quot;</span>]</code></pre>
+<p>We don’t need those first 3 items, so we can use the <code>drop</code> function (no need to import it since it’s from the base library).</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> drop <span class="dv">3</span> <span class="fu">.</span> lines  <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="st">&quot;  scala       15963       24885       64,15&quot;</span>,<span class="st">&quot;  nim         11121       20263       54,88&quot;</span>,<span class="st">&quot;  java        17969       53223       33,76&quot;</span>,<span class="st">&quot;  ocaml       7063        24371       28,98&quot;</span>,<span class="st">&quot;  coffee      2326        15653       14,86&quot;</span>,<span class="st">&quot;  racket      2461        17229       14,28&quot;</span>,<span class="st">&quot;  cs          5414        45039       12,02&quot;</span>,<span class="st">&quot;  clojure     1174        10099       11,62&quot;</span>,<span class="st">&quot;  ruby        1255        13247       9,47&quot;</span>,<span class="st">&quot;  go          3048        36321       8,39&quot;</span>,<span class="st">&quot;  vb          4523        58099       7,78&quot;</span>,<span class="st">&quot;  rust        4084        56516       7,23&quot;</span>,<span class="st">&quot;  js          1726        26437       6,53&quot;</span>,<span class="st">&quot;  c           3649        73047       5,00&quot;</span>,<span class="st">&quot;  haskell     1163        30115       3,86&quot;</span>,<span class="st">&quot;  python      304         19632       1,55&quot;</span>,<span class="st">&quot;  forth       563         44715       1,26&quot;</span>,<span class="st">&quot;  php         331         27332       1,21&quot;</span>]</code></pre>
+<p>Ah progress, now we have a list of each line of the table! I can see now that each object is separated by whitespace. My intuition tells me that turning a bunch of whitespace delimited text into a list is a common task in every language. Haskell turns out to be no exception with the words function which is also from Data.List.</p>
+<p>So taking the first line of our list of lines looks like this (picture the <code>.</code> between head and lines as being a pipe of sorts that applies the lines function and then the head function):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> head <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+<span class="st">&quot;  scala       15963       24885       64,15&quot;</span></code></pre>
+<p>Now we can apply the words function to it and see what we get:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> words <span class="fu">.</span> head <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="st">&quot;scala&quot;</span>,<span class="st">&quot;15963&quot;</span>,<span class="st">&quot;24885&quot;</span>,<span class="st">&quot;64,15&quot;</span>]</code></pre>
+<p>Now we know how to transform the first item of the list into a list of columns, but we want to transform every row (line) into columns (words).</p>
+<p>In Haskell it’s usually useful to find a function that transforms a singular item of a list then <code>map</code> that function to the entire list. I won’t try to explain what <code>map</code> does in the hopes that the example makes it obvious:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> map words <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[[<span class="st">&quot;scala&quot;</span>,<span class="st">&quot;15963&quot;</span>,<span class="st">&quot;24885&quot;</span>,<span class="st">&quot;64,15&quot;</span>],[<span class="st">&quot;nim&quot;</span>,<span class="st">&quot;11121&quot;</span>,<span class="st">&quot;20263&quot;</span>,<span class="st">&quot;54,88&quot;</span>],[<span class="st">&quot;java&quot;</span>,<span class="st">&quot;17969&quot;</span>,<span class="st">&quot;53223&quot;</span>,<span class="st">&quot;33,76&quot;</span>],[<span class="st">&quot;ocaml&quot;</span>,<span class="st">&quot;7063&quot;</span>,<span class="st">&quot;24371&quot;</span>,<span class="st">&quot;28,98&quot;</span>],[<span class="st">&quot;coffee&quot;</span>,<span class="st">&quot;2326&quot;</span>,<span class="st">&quot;15653&quot;</span>,<span class="st">&quot;14,86&quot;</span>],[<span class="st">&quot;racket&quot;</span>,<span class="st">&quot;2461&quot;</span>,<span class="st">&quot;17229&quot;</span>,<span class="st">&quot;14,28&quot;</span>],[<span class="st">&quot;cs&quot;</span>,<span class="st">&quot;5414&quot;</span>,<span class="st">&quot;45039&quot;</span>,<span class="st">&quot;12,02&quot;</span>],[<span class="st">&quot;clojure&quot;</span>,<span class="st">&quot;1174&quot;</span>,<span class="st">&quot;10099&quot;</span>,<span class="st">&quot;11,62&quot;</span>],[<span class="st">&quot;ruby&quot;</span>,<span class="st">&quot;1255&quot;</span>,<span class="st">&quot;13247&quot;</span>,<span class="st">&quot;9,47&quot;</span>],[<span class="st">&quot;go&quot;</span>,<span class="st">&quot;3048&quot;</span>,<span class="st">&quot;36321&quot;</span>,<span class="st">&quot;8,39&quot;</span>],[<span class="st">&quot;vb&quot;</span>,<span class="st">&quot;4523&quot;</span>,<span class="st">&quot;58099&quot;</span>,<span class="st">&quot;7,78&quot;</span>],[<span class="st">&quot;rust&quot;</span>,<span class="st">&quot;4084&quot;</span>,<span class="st">&quot;56516&quot;</span>,<span class="st">&quot;7,23&quot;</span>],[<span class="st">&quot;js&quot;</span>,<span class="st">&quot;1726&quot;</span>,<span class="st">&quot;26437&quot;</span>,<span class="st">&quot;6,53&quot;</span>],[<span class="st">&quot;c&quot;</span>,<span class="st">&quot;3649&quot;</span>,<span class="st">&quot;73047&quot;</span>,<span class="st">&quot;5,00&quot;</span>],[<span class="st">&quot;haskell&quot;</span>,<span class="st">&quot;1163&quot;</span>,<span class="st">&quot;30115&quot;</span>,<span class="st">&quot;3,86&quot;</span>],[<span class="st">&quot;python&quot;</span>,<span class="st">&quot;304&quot;</span>,<span class="st">&quot;19632&quot;</span>,<span class="st">&quot;1,55&quot;</span>],[<span class="st">&quot;forth&quot;</span>,<span class="st">&quot;563&quot;</span>,<span class="st">&quot;44715&quot;</span>,<span class="st">&quot;1,26&quot;</span>],[<span class="st">&quot;php&quot;</span>,<span class="st">&quot;331&quot;</span>,<span class="st">&quot;27332&quot;</span>,<span class="st">&quot;1,21&quot;</span>]]</code></pre>
+<p>Now we have 2d list representing our the individual rows and their columns. How do we go about sorting them? Well first we need to turn the strings that are numbers into strings. In Haskell the default lists must all have the same type though, you can’t just mix ints and strings.</p>
+<p>The answer is to use an abstract data type to represent each of our <code>Entries</code>. Let’s define one:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> <span class="kw">data</span> <span class="dt">Entry</span> <span class="fu">=</span> <span class="dt">Entry</span> {<span class="ot"> langName ::</span> <span class="dt">String</span>,<span class="ot"> perf3 ::</span> <span class="dt">Int</span>,<span class="ot"> totalChars ::</span> <span class="dt">Int</span>} <span class="kw">deriving</span> <span class="dt">Show</span></code></pre>
+<p>How do we make one? Well using the first element <code>[&quot;scala&quot;,&quot;15963&quot;,&quot;24885&quot;,&quot;64,15&quot;]</code> and translating those string numbers into numbers:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> <span class="dt">Entry</span> <span class="st">&quot;scala&quot;</span> <span class="dv">15963</span> <span class="dv">24885</span>
+<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;scala&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">15963</span>, totalChars <span class="fu">=</span> <span class="dv">24885</span>}</code></pre>
+<p>Alright now let’s make a function to parse that same first element into an Entry automatically. We’ll make our <code>parseEntry</code> function return either <code>Just Entry</code> if 3 list items are present or <code>Nothing</code> otherwise.</p>
+<p>We need to use the multiline definition format (start <code>:{</code> and end <code>:}</code>) or pattern matches won’t work right in ghci.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> <span class="co">-- </span>
+λ<span class="fu">&gt;</span> <span class="fu">:</span>{
+<span class="fu">*</span><span class="dt">Main</span> <span class="dt">Main</span> <span class="dt">Data.List</span><span class="fu">|</span> <span class="kw">let</span> parseEntry (a<span class="fu">:</span>b<span class="fu">:</span>c<span class="fu">:</span>_) <span class="fu">=</span> <span class="dt">Just</span> <span class="fu">$</span> <span class="dt">Entry</span> a (read<span class="ot"> b ::</span> <span class="dt">Int</span>) (read<span class="ot"> c ::</span> <span class="dt">Int</span>)
+<span class="fu">*</span><span class="dt">Main</span> <span class="dt">Main</span> <span class="dt">Data.List</span><span class="fu">|</span>     parseEntry _ <span class="fu">=</span> <span class="dt">Nothing</span>
+<span class="fu">*</span><span class="dt">Main</span> <span class="dt">Main</span> <span class="dt">Data.List</span><span class="fu">|</span> <span class="fu">:</span>}</code></pre>
+<p>Let’s try it out:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> parseEntry [<span class="st">&quot;scala&quot;</span>,<span class="st">&quot;15963&quot;</span>,<span class="st">&quot;24885&quot;</span>,<span class="st">&quot;64,15&quot;</span>]
+<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;scala&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">15963</span>, totalChars <span class="fu">=</span> <span class="dv">24885</span>})
+λ<span class="fu">&gt;</span> parseEntry []
+<span class="dt">Nothing</span>
+λ<span class="fu">&gt;</span> parseEntry [<span class="st">&quot;&quot;</span>,<span class="st">&quot;&quot;</span>]
+<span class="dt">Nothing</span></code></pre>
+<p>Now we can use <code>map</code> just like before to apply it to the entire 2d list:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> map parseEntry <span class="fu">.</span> map words <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;scala&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">15963</span>, totalChars <span class="fu">=</span> <span class="dv">24885</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;nim&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">11121</span>, totalChars <span class="fu">=</span> <span class="dv">20263</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;java&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">17969</span>, totalChars <span class="fu">=</span> <span class="dv">53223</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ocaml&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">7063</span>, totalChars <span class="fu">=</span> <span class="dv">24371</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;coffee&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2326</span>, totalChars <span class="fu">=</span> <span class="dv">15653</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;racket&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2461</span>, totalChars <span class="fu">=</span> <span class="dv">17229</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;cs&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">5414</span>, totalChars <span class="fu">=</span> <span class="dv">45039</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;clojure&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1174</span>, totalChars <span class="fu">=</span> <span class="dv">10099</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ruby&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1255</span>, totalChars <span class="fu">=</span> <span class="dv">13247</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;go&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3048</span>, totalChars <span class="fu">=</span> <span class="dv">36321</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;vb&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4523</span>, totalChars <span class="fu">=</span> <span class="dv">58099</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;rust&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4084</span>, totalChars <span class="fu">=</span> <span class="dv">56516</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;js&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1726</span>, totalChars <span class="fu">=</span> <span class="dv">26437</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;c&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3649</span>, totalChars <span class="fu">=</span> <span class="dv">73047</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;haskell&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1163</span>, totalChars <span class="fu">=</span> <span class="dv">30115</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;python&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">304</span>, totalChars <span class="fu">=</span> <span class="dv">19632</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;forth&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">563</span>, totalChars <span class="fu">=</span> <span class="dv">44715</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;php&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">331</span>, totalChars <span class="fu">=</span> <span class="dv">27332</span>})]</code></pre>
+<p>Also, instead of prepending <code>map parseEntry</code> to <code>map words</code> I could have composed <code>parseEntry</code> with <code>words</code> like this:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> map (parseEntry <span class="fu">.</span> words) <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;scala&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">15963</span>, totalChars <span class="fu">=</span> <span class="dv">24885</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;nim&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">11121</span>, totalChars <span class="fu">=</span> <span class="dv">20263</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;java&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">17969</span>, totalChars <span class="fu">=</span> <span class="dv">53223</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ocaml&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">7063</span>, totalChars <span class="fu">=</span> <span class="dv">24371</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;coffee&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2326</span>, totalChars <span class="fu">=</span> <span class="dv">15653</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;racket&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2461</span>, totalChars <span class="fu">=</span> <span class="dv">17229</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;cs&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">5414</span>, totalChars <span class="fu">=</span> <span class="dv">45039</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;clojure&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1174</span>, totalChars <span class="fu">=</span> <span class="dv">10099</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ruby&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1255</span>, totalChars <span class="fu">=</span> <span class="dv">13247</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;go&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3048</span>, totalChars <span class="fu">=</span> <span class="dv">36321</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;vb&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4523</span>, totalChars <span class="fu">=</span> <span class="dv">58099</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;rust&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4084</span>, totalChars <span class="fu">=</span> <span class="dv">56516</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;js&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1726</span>, totalChars <span class="fu">=</span> <span class="dv">26437</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;c&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3649</span>, totalChars <span class="fu">=</span> <span class="dv">73047</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;haskell&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1163</span>, totalChars <span class="fu">=</span> <span class="dv">30115</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;python&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">304</span>, totalChars <span class="fu">=</span> <span class="dv">19632</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;forth&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">563</span>, totalChars <span class="fu">=</span> <span class="dv">44715</span>}),<span class="dt">Just</span> (<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;php&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">331</span>, totalChars <span class="fu">=</span> <span class="dv">27332</span>})]</code></pre>
+<p>Now we have a type of <code>[Maybe Entry]</code> (well <code>IO [Maybe Entry]</code>, but that doesn’t make much difference for us). To be honest I’m not sure how to sort <code>[Maybe a]</code>’s offhand, so we’ll just turn our <code>[Maybe Entry]</code> into <code>[Entry]</code> safely by composing two functions, <code>map fromJust</code> and <code>filter isJust</code>.</p>
+<p><code>filter isJust</code> will make sure that of our <code>[Maybe Entry]</code> we <em>only</em> have <code>[Just Entry]</code>, so then it’ll be safe to map the fromJust function that turns <code>Maybe a -&gt; a</code>. The example will probably explain better:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> map fromJust <span class="fu">.</span> filter isJust <span class="fu">.</span> map (parseEntry <span class="fu">.</span> words) <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;scala&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">15963</span>, totalChars <span class="fu">=</span> <span class="dv">24885</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;nim&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">11121</span>, totalChars <span class="fu">=</span> <span class="dv">20263</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;java&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">17969</span>, totalChars <span class="fu">=</span> <span class="dv">53223</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ocaml&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">7063</span>, totalChars <span class="fu">=</span> <span class="dv">24371</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;coffee&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2326</span>, totalChars <span class="fu">=</span> <span class="dv">15653</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;racket&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2461</span>, totalChars <span class="fu">=</span> <span class="dv">17229</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;cs&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">5414</span>, totalChars <span class="fu">=</span> <span class="dv">45039</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;clojure&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1174</span>, totalChars <span class="fu">=</span> <span class="dv">10099</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ruby&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1255</span>, totalChars <span class="fu">=</span> <span class="dv">13247</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;go&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3048</span>, totalChars <span class="fu">=</span> <span class="dv">36321</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;vb&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4523</span>, totalChars <span class="fu">=</span> <span class="dv">58099</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;rust&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4084</span>, totalChars <span class="fu">=</span> <span class="dv">56516</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;js&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1726</span>, totalChars <span class="fu">=</span> <span class="dv">26437</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;c&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3649</span>, totalChars <span class="fu">=</span> <span class="dv">73047</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;haskell&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1163</span>, totalChars <span class="fu">=</span> <span class="dv">30115</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;python&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">304</span>, totalChars <span class="fu">=</span> <span class="dv">19632</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;forth&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">563</span>, totalChars <span class="fu">=</span> <span class="dv">44715</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;php&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">331</span>, totalChars <span class="fu">=</span> <span class="dv">27332</span>}]</code></pre>
+<p>Now we can use the <code>sortBy</code> and <code>on</code> functions to sort based on different Entry fields:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> sortBy (compare <span class="ot">`on`</span> langName) <span class="fu">.</span> map fromJust <span class="fu">.</span> filter isJust <span class="fu">.</span> map (parseEntry <span class="fu">.</span> words) <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span>
+[<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;c&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3649</span>, totalChars <span class="fu">=</span> <span class="dv">73047</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;clojure&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1174</span>, totalChars <span class="fu">=</span> <span class="dv">10099</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;coffee&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2326</span>, totalChars <span class="fu">=</span> <span class="dv">15653</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;cs&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">5414</span>, totalChars <span class="fu">=</span> <span class="dv">45039</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;forth&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">563</span>, totalChars <span class="fu">=</span> <span class="dv">44715</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;go&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">3048</span>, totalChars <span class="fu">=</span> <span class="dv">36321</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;haskell&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1163</span>, totalChars <span class="fu">=</span> <span class="dv">30115</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;java&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">17969</span>, totalChars <span class="fu">=</span> <span class="dv">53223</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;js&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1726</span>, totalChars <span class="fu">=</span> <span class="dv">26437</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;nim&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">11121</span>, totalChars <span class="fu">=</span> <span class="dv">20263</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ocaml&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">7063</span>, totalChars <span class="fu">=</span> <span class="dv">24371</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;php&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">331</span>, totalChars <span class="fu">=</span> <span class="dv">27332</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;python&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">304</span>, totalChars <span class="fu">=</span> <span class="dv">19632</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;racket&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">2461</span>, totalChars <span class="fu">=</span> <span class="dv">17229</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;ruby&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">1255</span>, totalChars <span class="fu">=</span> <span class="dv">13247</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;rust&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4084</span>, totalChars <span class="fu">=</span> <span class="dv">56516</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;scala&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">15963</span>, totalChars <span class="fu">=</span> <span class="dv">24885</span>},<span class="dt">Entry</span> {langName <span class="fu">=</span> <span class="st">&quot;vb&quot;</span>, perf3 <span class="fu">=</span> <span class="dv">4523</span>, totalChars <span class="fu">=</span> <span class="dv">58099</span>}]</code></pre>
+<p>Hm, that’s getting difficult to see… let’s pretty print it. But first let’s store our results (before sorting) above in a variable called <code>results</code>. I avoided using variables for some time and this function is still of type <code>IO</code>, so we’ll need to use <code>&lt;-</code> instead of <code>=</code> for assignment to “draw out” the value.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> results <span class="ot">&lt;-</span> map fromJust <span class="fu">.</span> filter isJust <span class="fu">.</span> map (parseEntry <span class="fu">.</span> words) <span class="fu">.</span> drop <span class="dv">3</span> <span class="fu">.</span> lines <span class="fu">&lt;$&gt;</span> readFile <span class="st">&quot;langstats.txt&quot;</span></code></pre>
+<p>Here’s a free pretty printing function (Keep in mind we have to use <code>mapM_</code> on functions that do IO):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> prettyPrint (<span class="dt">Entry</span> a b c) <span class="fu">=</span> putStrLn <span class="fu">$</span> a <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> show b <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span> show c</code></pre>
+<p>Now let’s sort alphabetically again…</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> mapM_ prettyPrint <span class="fu">.</span> sortBy (compare <span class="ot">`on`</span> langName) <span class="fu">$</span> results
+c <span class="dv">3649</span> <span class="dv">73047</span>
+clojure <span class="dv">1174</span> <span class="dv">10099</span>
+coffee <span class="dv">2326</span> <span class="dv">15653</span>
+cs <span class="dv">5414</span> <span class="dv">45039</span>
+forth <span class="dv">563</span> <span class="dv">44715</span>
+go <span class="dv">3048</span> <span class="dv">36321</span>
+haskell <span class="dv">1163</span> <span class="dv">30115</span>
+java <span class="dv">17969</span> <span class="dv">53223</span>
+js <span class="dv">1726</span> <span class="dv">26437</span>
+nim <span class="dv">11121</span> <span class="dv">20263</span>
+ocaml <span class="dv">7063</span> <span class="dv">24371</span>
+php <span class="dv">331</span> <span class="dv">27332</span>
+python <span class="dv">304</span> <span class="dv">19632</span>
+racket <span class="dv">2461</span> <span class="dv">17229</span>
+ruby <span class="dv">1255</span> <span class="dv">13247</span>
+rust <span class="dv">4084</span> <span class="dv">56516</span>
+scala <span class="dv">15963</span> <span class="dv">24885</span>
+vb <span class="dv">4523</span> <span class="dv">58099</span></code></pre>
+<p>Now we can try sorting by <code>perf3</code>, the second column:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> mapM_ prettyPrint <span class="fu">.</span> sortBy (compare <span class="ot">`on`</span> perf3) <span class="fu">$</span> results
+python <span class="dv">304</span> <span class="dv">19632</span>
+php <span class="dv">331</span> <span class="dv">27332</span>
+forth <span class="dv">563</span> <span class="dv">44715</span>
+haskell <span class="dv">1163</span> <span class="dv">30115</span>
+clojure <span class="dv">1174</span> <span class="dv">10099</span>
+ruby <span class="dv">1255</span> <span class="dv">13247</span>
+js <span class="dv">1726</span> <span class="dv">26437</span>
+coffee <span class="dv">2326</span> <span class="dv">15653</span>
+racket <span class="dv">2461</span> <span class="dv">17229</span>
+go <span class="dv">3048</span> <span class="dv">36321</span>
+c <span class="dv">3649</span> <span class="dv">73047</span>
+rust <span class="dv">4084</span> <span class="dv">56516</span>
+vb <span class="dv">4523</span> <span class="dv">58099</span>
+cs <span class="dv">5414</span> <span class="dv">45039</span>
+ocaml <span class="dv">7063</span> <span class="dv">24371</span>
+nim <span class="dv">11121</span> <span class="dv">20263</span>
+scala <span class="dv">15963</span> <span class="dv">24885</span>
+java <span class="dv">17969</span> <span class="dv">53223</span></code></pre>
+<p>Wait… it’s in the wrong order… that’s okay we can <code>reverse</code> it!</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> mapM_ prettyPrint <span class="fu">.</span> reverse <span class="fu">.</span> sortBy (compare <span class="ot">`on`</span> perf3) <span class="fu">$</span> results
+java <span class="dv">17969</span> <span class="dv">53223</span>
+scala <span class="dv">15963</span> <span class="dv">24885</span>
+nim <span class="dv">11121</span> <span class="dv">20263</span>
+ocaml <span class="dv">7063</span> <span class="dv">24371</span>
+cs <span class="dv">5414</span> <span class="dv">45039</span>
+vb <span class="dv">4523</span> <span class="dv">58099</span>
+rust <span class="dv">4084</span> <span class="dv">56516</span>
+c <span class="dv">3649</span> <span class="dv">73047</span>
+go <span class="dv">3048</span> <span class="dv">36321</span>
+racket <span class="dv">2461</span> <span class="dv">17229</span>
+coffee <span class="dv">2326</span> <span class="dv">15653</span>
+js <span class="dv">1726</span> <span class="dv">26437</span>
+ruby <span class="dv">1255</span> <span class="dv">13247</span>
+clojure <span class="dv">1174</span> <span class="dv">10099</span>
+haskell <span class="dv">1163</span> <span class="dv">30115</span>
+forth <span class="dv">563</span> <span class="dv">44715</span>
+php <span class="dv">331</span> <span class="dv">27332</span>
+python <span class="dv">304</span> <span class="dv">19632</span></code></pre>
+<p>Success! We turned a whitespace delimited table into a 2d list, then transformed that 2d list into a list of our abstract data type (Entries), and finally we sorted it and pretty printed the results.</p>
+
+        
+    &nbsp;
+
+</nav>
+
+</main>
+
+            
+        </div>
+    </div>
+
+    
+</body>
+</html>
