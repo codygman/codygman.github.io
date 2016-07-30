@@ -80,21 +80,21 @@
 <br />
 
 <p>Was browsing my feed and came across something similar to this in stack overflow. So really quickly wrote out the imperative version:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">readInts ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">readInts ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]
 readInts x <span class="fu">=</span> read x
 
 main <span class="fu">=</span> <span class="kw">do</span>
   input <span class="ot">&lt;-</span> getLine
   <span class="kw">let</span> list <span class="fu">=</span> read<span class="ot"> input ::</span> [<span class="dt">Int</span>]
-  print list</code></pre>
+  print list</code></pre></div>
 <p>Then I of course rewrote it to the condensed version:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">readInts ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">readInts ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">Int</span>]
 readInts x <span class="fu">=</span> read x
 
 main <span class="fu">=</span> <span class="kw">do</span>
-  getLine <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> readInts</code></pre>
+  getLine <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> readInts</code></pre></div>
 <p>I attempted to get rid of the readInts function like this:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> getLine <span class="fu">&gt;&gt;=</span>  print <span class="fu">.</span> (read<span class="ot"> ::</span> [<span class="dt">Int</span>])</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> getLine <span class="fu">&gt;&gt;=</span>  print <span class="fu">.</span> (read<span class="ot"> ::</span> [<span class="dt">Int</span>])</code></pre></div>
 <p>However I was met with the type error and… I apparently never finished this post. Maybe later?</p>
 
         

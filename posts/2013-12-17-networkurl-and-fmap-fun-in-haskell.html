@@ -81,7 +81,7 @@
 
 <p>Well I’m up late once again, and I’ve found myself toying with <a href="http://hackage.haskell.org/package/url-2.1/docs/Network-URL.html">Network.URL</a> and <a href="http://hackage.haskell.org/package/base-4.6.0.1/docs/Prelude.html#v:fmap">fmap</a>. The tutorial that taught me what fmap was is <a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">here</a>.</p>
 <p>I’m not quite sure how to do it, but all I’d really like to do is give a url, parameter name, and a parameter value and get a valid url out of it or an error. So let’s start playing around…</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- My first go at building the url is ugly but it works</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- My first go at building the url is ugly but it works</span>
 fmap exportURL <span class="fu">$</span> fmap (\x <span class="ot">-&gt;</span> add_param x (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>)) <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>
 
 <span class="co">-- Next I tried cleaning things up with '&lt;$&gt;' which is the infix version of fmap</span>
@@ -102,25 +102,25 @@ add_param <span class="fu">.</span> flip (<span class="st">&quot;hoogle&quot;</s
 fromJust <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>
 
 <span class="co">-- simply adding query parameters</span>
-add_param (fromJust <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>) (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>) </code></pre>
+add_param (fromJust <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>) (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>) </code></pre></div>
 <p>Next I wanted to eliminate this lambda:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">add_param (<span class="st">&quot;query&quot;</span> <span class="st">&quot;haskell&quot;</span>) (fromJust <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">add_param (<span class="st">&quot;query&quot;</span> <span class="st">&quot;haskell&quot;</span>) (fromJust <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>)</code></pre></div>
 <p>We can use flip for that:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- :t flip add_param</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- :t flip add_param</span>
 <span class="co">-- flip add_param :: (String, String) -&gt; URL -&gt; URL</span>
 flip add_param (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>) (fromJust <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>)
-<span class="co">-- URL {url_type = Absolute (Host {protocol = HTTP False, host = &quot;www.google.com&quot;, port = Nothing}), url_path = &quot;&quot;, url_params = [(&quot;query&quot;,&quot;haskell&quot;)]}</span></code></pre>
+<span class="co">-- URL {url_type = Absolute (Host {protocol = HTTP False, host = &quot;www.google.com&quot;, port = Nothing}), url_path = &quot;&quot;, url_params = [(&quot;query&quot;,&quot;haskell&quot;)]}</span></code></pre></div>
 <p>Awesome, now we can eliminate the lambda:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell">flip add_param (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>) <span class="fu">&lt;$&gt;</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>
-<span class="co">-- Just (URL {url_type = Absolute (Host {protocol = HTTP False, host = &quot;www.google.com&quot;, port = Nothing}), url_path = &quot;&quot;, url_params = [(&quot;query&quot;,&quot;haskell&quot;)]})</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">flip add_param (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>) <span class="fu">&lt;$&gt;</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>
+<span class="co">-- Just (URL {url_type = Absolute (Host {protocol = HTTP False, host = &quot;www.google.com&quot;, port = Nothing}), url_path = &quot;&quot;, url_params = [(&quot;query&quot;,&quot;haskell&quot;)]})</span></code></pre></div>
 <p>Then we end up with this difference in code (remember &lt;$&gt; is the infix version of the fmap function):</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- first try</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- first try</span>
 fmap exportURL <span class="fu">$</span> fmap (\x <span class="ot">-&gt;</span> add_param x (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>)) <span class="fu">$</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>
 <span class="co">-- Just &quot;http://www.haskell.org/hoogle/?hoogle=fmap&quot;</span>
 
 <span class="co">-- new code</span>
 exportURL <span class="fu">&lt;$&gt;</span> flip add_param (<span class="st">&quot;hoogle&quot;</span>, <span class="st">&quot;fmap&quot;</span>) <span class="fu">&lt;$&gt;</span> importURL <span class="st">&quot;http://www.haskell.org/hoogle/&quot;</span>
-<span class="co">-- Just &quot;http://www.haskell.org/hoogle/?hoogle=fmap&quot;</span></code></pre>
+<span class="co">-- Just &quot;http://www.haskell.org/hoogle/?hoogle=fmap&quot;</span></code></pre></div>
 <p>So what was the point of all this? Learning how to use flip to reverse function parameters enabling us to make our code more concise and knowing how to add query parameters to a url :D You can probably infer that fmap (aka &lt;$&gt;) is “magic”, meaning it knows about context.</p>
 <p>Truthfully, I was going to make a longer post but then I ended up having a slight detour thinking about the semantics of this.</p>
 

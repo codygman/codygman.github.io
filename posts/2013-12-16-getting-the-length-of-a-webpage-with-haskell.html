@@ -80,12 +80,12 @@
 <br />
 
 <p>I was wanting to see how many words were on a webpage today, so I opened up a python interpreter and typed in the following code:</p>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="ch">import</span> urllib
-webpage_content = urllib.urlopen(<span class="st">&quot;http://www.reddit.com&quot;</span>).read()
-words = webpage_content.split()
-<span class="dt">print</span> <span class="dt">len</span>(words)</code></pre>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> urllib
+webpage_content <span class="op">=</span> urllib.urlopen(<span class="st">&quot;http://www.reddit.com&quot;</span>).read()
+words <span class="op">=</span> webpage_content.split()
+<span class="bu">print</span> <span class="bu">len</span>(words)</code></pre></div>
 <p>Very succinct code that does what I need it to. I’ve been using haskell lately though and wondered what it’s solution would look like. First I wrote a very imperative version:</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Network.HTTP.Conduit</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Network.HTTP.Conduit</span>
 <span class="kw">import qualified</span> <span class="dt">Data.ByteString.Lazy.Char8</span> <span class="kw">as</span> <span class="dt">BCL</span>
 
 main <span class="fu">=</span> <span class="kw">do</span>
@@ -93,26 +93,26 @@ main <span class="fu">=</span> <span class="kw">do</span>
   url <span class="ot">&lt;-</span> getLine
   pageText <span class="ot">&lt;-</span> simpleHttp url
   <span class="kw">let</span> pageTextCount <span class="fu">=</span> length <span class="fu">.</span> words <span class="fu">.</span> BCL.unpack <span class="fu">$</span> pageText
-  print <span class="fu">$</span> <span class="st">&quot;There are &quot;</span> <span class="fu">++</span> show pageTextCount <span class="fu">++</span> <span class="st">&quot; words!&quot;</span></code></pre>
+  print <span class="fu">$</span> <span class="st">&quot;There are &quot;</span> <span class="fu">++</span> show pageTextCount <span class="fu">++</span> <span class="st">&quot; words!&quot;</span></code></pre></div>
 <div style="text-align:center" markdown="1">
 <p><a href="https://www.fpcomplete.com/user/codygman/getting-number-of-words-on-a-web-page-imperatively">Play with the code in an online IDE</a> (free signup required)</p>
 </div>
 <p>This isn’t nearly as short as the python version, but its still pretty understandable to most. Having to unpack the lazy bytestring might throw a few off, but everything else is straightforward. After writing this, I realized I could use bind and functional composition to shorten things up even more than python!</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Network.HTTP.Conduit</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Network.HTTP.Conduit</span>
 <span class="kw">import qualified</span> <span class="dt">Data.ByteString.Lazy.Char8</span> <span class="kw">as</span> <span class="dt">BCL</span>
 
 main <span class="fu">=</span> <span class="kw">do</span>
     putStrLn <span class="st">&quot;Enter a url: &quot;</span>
-    getLine <span class="fu">&gt;&gt;=</span> simpleHttp <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> length <span class="fu">.</span> BCL.words</code></pre>
+    getLine <span class="fu">&gt;&gt;=</span> simpleHttp <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> length <span class="fu">.</span> BCL.words</code></pre></div>
 <div style="text-align:center" markdown="1">
 <p><a href="https://www.fpcomplete.com/user/codygman/getting-number-of-words-on-a-web-page-with-bytestrings">Play with the code in an online IDE</a> (free signup required)</p>
 </div>
 <p>After that I wondered if I could use the (official?) Network.HTTP package easier, and made a very similar version with it.</p>
-<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Network.HTTP</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Network.HTTP</span>
 
 main <span class="fu">=</span> <span class="kw">do</span>
     putStrLn <span class="st">&quot;Enter a url: &quot;</span>
-    getLine <span class="fu">&gt;&gt;=</span> simpleHTTP <span class="fu">.</span> getRequest <span class="fu">&gt;&gt;=</span> getResponseBody <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> length <span class="fu">.</span> words</code></pre>
+    getLine <span class="fu">&gt;&gt;=</span> simpleHTTP <span class="fu">.</span> getRequest <span class="fu">&gt;&gt;=</span> getResponseBody <span class="fu">&gt;&gt;=</span> print <span class="fu">.</span> length <span class="fu">.</span> words</code></pre></div>
 <div style="text-align:center" markdown="1">
 <p><a href="https://www.fpcomplete.com/user/codygman/getting-length-of-website-in-haskell">Play with the code in an online IDE</a> (free signup required)</p>
 </div>
