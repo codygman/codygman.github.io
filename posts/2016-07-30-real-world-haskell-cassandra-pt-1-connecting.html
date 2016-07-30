@@ -79,7 +79,7 @@
 </div>
 <br />
 
-<p>I use cassandra at work and was wondering what a complete Haskell solution would look like. I go to hackage and type in “cassandra” and <a href="http://hackage.haskell.org/packages/search?terms=cassandra">these results</a> are returned:</p>
+<p>I use Cassandra at work and was wondering what a complete Haskell solution would look like. I go to Hackage and type in “Cassandra” and <a href="http://hackage.haskell.org/packages/search?terms=cassandra">these results</a> are returned:</p>
 <pre><code>    cassandra-thrift library
     thrift bindings to the cassandra database
     library Last uploaded on Apr 21, 2013
@@ -215,7 +215,7 @@ Installing executable(s) in
 /tmp/test-cassandra-cql/.stack-work/install/x86_64-linux/lts-6.9/7.10.3/bin
 Completed 8 action(s).
 /tmp/test-cassandra-cql λ </code></pre>
-<p>Cool, now it’s installed and we are ready to write some code. Let’s be lazy and peruse the <a href="https://github.com/the-real-blackh/cassandra-cql">github link</a> I found on <a href="http://hackage.haskell.org/package/cassandra-cql">cassandra-cql’s hackage page</a>. At the github page I see something like this:</p>
+<p>Cool, now it’s installed and we are ready to write some code. Let’s be lazy and peruse the <a href="https://github.com/the-real-blackh/cassandra-cql">github link</a> I found on <a href="http://hackage.haskell.org/package/cassandra-cql">cassandra-cql’s Hackage page</a>. At the github page I see something like this:</p>
 <pre><code> 	Database/Cassandra 	executeTrans now takes consistency as a parameter. 	7 months ago
 	tests 	executeTrans now takes consistency as a parameter. 	7 months ago
 	.gitignore 	Use Data.Pool for connection pooling. 	2 years ago
@@ -428,7 +428,7 @@ Ok, modules loaded: Main.
 failed to create a session due to temporary error (will retry) : NoAvailableServers
 failed to create a session due to permanent error (will rethrow) : user interrupt
 Interrupted.</code></pre>
-<p>Uh oh, we forgot to actually make a cassandra server available. We can use docker to quickly do that. If you don’t have docker installed check out <a href="https://docs.docker.com/engine/installation/">docker’s installation page</a>. So open up another terminal and type:</p>
+<p>Uh oh, we forgot to actually make a Cassandra server available. We can use Docker to quickly do that. If you don’t have Docker installed check out <a href="https://docs.docker.com/engine/installation/">Docker’s installation page</a>. So open up another terminal and type:</p>
 <pre><code>docker run -p 9042:9042 -p 9160:9160 -it --name some-cassandra cassandra:latest</code></pre>
 <p>It should look something like this:</p>
 <pre><code>/tmp/test-cassandra-cql λ docker run -p 9042:9042 -p 9160:9160 -it --name some-cassandra cassandra:latest
@@ -448,26 +448,26 @@ failed to create a session due to temporary error (will retry) : LocalProtocolEr
 failed to create a session due to permanent error (will rethrow) : user interrupt</code></pre>
 <p>Uh oh, it’s an unexpected version. Maybe cassandra-cql doesn’t support latest version of cassandra? Let’s check the <a href="http://hackage.haskell.org/package/cassandra-cql">docs</a> and the <a href>source repo</a>. On the repo’s readme.md it says:</p>
 <p>“Haskell client for Cassandra’s CQL binary protocol v2”</p>
-<p>I believe the latest cassandra uses cql version 3.3, so we’ll need a little older cassandra.</p>
-<p>Let’s check what tags are available on the <a href="https://hub.docker.com/_/cassandra/">docker cassandra page</a></p>
+<p>I believe the latest Cassandra uses CQL version 3.3, so we’ll need a little older Cassandra.</p>
+<p>Let’s check what tags are available on the <a href="https://hub.docker.com/_/cassandra/">Docker Cassandra page</a></p>
 <pre><code>    2.1.15, 2.1 (2.1/Dockerfile)
     2.2.7, 2.2, 2 (2.2/Dockerfile)
     3.0.8, 3.0 (3.0/Dockerfile)
     3.7, 3, latest (3.7/Dockerfile)</code></pre>
-<p>Hm, let’s guess and try 3.0.8.</p>
+<p>Hm, <strong>let’s guess and try 3.0.8</strong>.</p>
 <pre><code>/tmp/test-cassandra-cql λ docker rm -f some-cassandra &amp;&amp; docker run -p 9042:9042 -p 9160:9160 -it --name some-cassandra cassandra:3.0.8
 some-cassandra
 INFO  18:07:43 Configuration location: file:/etc/cassandra/cassandra.yaml
 INFO  18:07:53 Starting listening for CQL clients on /0.0.0.0:9042 (unencrypted)...
 
-... snip (random cassandra logs) ...
+... snip (random Cassandra logs) ...
 
 INFO  18:07:53 Not starting RPC server as requested. Use JMX (StorageService-&gt;startRPCServer()) or nodetool (enablethrift) to start it
 INFO  18:07:55 Created default superuser role 'cassandra'</code></pre>
 <p>Then try running our main function again:</p>
 <pre><code>*Main&gt; main 
 failed to create a session due to temporary error (will retry) : LocalProtocolError &quot;unexpected version 4&quot; &quot;&lt;startup&gt;&quot;</code></pre>
-<p>I’m not sure how cql versions/cassandra correspond so I’m just going to try the oldest tag and see if it works.</p>
+<p>I’m not sure how CQL versions/Cassandra correspond so I’m just going to try the oldest tag and see if it works.</p>
 <pre><code>/tmp/test-cassandra-cql λ docker rm -f some-cassandra &amp;&amp; docker run -p 9042:9042 -p 9160:9160 -it --name some-cassandra cassandra:2.1
 some-cassandra
 Unable to find image 'cassandra:2.1' locally
@@ -482,7 +482,7 @@ a21cf6fac262: Already exists
 failed to create a session due to permanent error (will rethrow) : Invalid &quot;Keyspace 'test' does not exist&quot; &quot;USE test&quot;
 failed to create a session due to permanent error (will rethrow) : user interrupt
 Interrupted.</code></pre>
-<p>Awesome! We’re almost there, just need to create the keyspace. Can we do that with cassandra-cql? I <a href="https://github.com/the-real-blackh/cassandra-cql/search?utf8=%E2%9C%93&amp;q=keyspace">searched “keyspace”</a> on the cassandra-cql github and one of the results was “tests/example-autocreate-keyspace.hs”. It looks like the example we copy pasted except it auto creates the keyspace. So copy the below into your main.hs:</p>
+<p>Awesome! We’re almost there, just need to create the keyspace. Can we do that with cassandra-cql? I <a href="https://github.com/the-real-blackh/cassandra-cql/search?utf8=%E2%9C%93&amp;q=keyspace">searched “keyspace”</a> on the cassandra-cql github and one of the results was “tests/example-autocreate-keyspace.hs”. It looks like the example we copy pasted except it auto creates the keyspace. So copy the below into your <code>main.hs</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE OverloadedStrings, DataKinds #-}</span>
 
 <span class="kw">import </span><span class="dt">Database.Cassandra.CQL</span>
@@ -559,8 +559,8 @@ main <span class="fu">=</span> <span class="kw">do</span>
     parse error on input ‘KeyspaceConfig’
 Failed, modules loaded: none.
 Prelude&gt;  1</code></pre>
-<p>I know from experience that at this point it’s probably because the version on github I copied the example from and the version on hackage differ. Sure enough after checking I see the hackage version is at 0.5.0.2 and the github version is at 0.6. I’m just going to use the github version, luckily stack makes that pretty easy.</p>
-<p>Here is our current stack.yaml:</p>
+<p>I know from experience that at this point it’s probably because the version on github I copied the example from and the version on Hackage differ. Sure enough after checking I see the Hackage version is at 0.5.0.2 and the github version is at 0.6. I’m just going to use the github version, luckily stack makes that pretty easy.</p>
+<p>Here is our current <code>stack.yaml</code>:</p>
 <div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">flags:</span> <span class="kw">{}</span>
 <span class="fu">extra-package-dbs:</span> <span class="kw">[]</span>
 <span class="fu">packages:</span>
@@ -568,7 +568,7 @@ Prelude&gt;  1</code></pre>
 <span class="fu">extra-deps:</span>
 <span class="kw">-</span> cassandra-cql-0.5.0.2
 <span class="fu">resolver:</span> lts-6.9</code></pre></div>
-<p>I’ve been busy doing Go programming at work and can’t recall the git syntax for Stack, so I’ll refer to this <a href="https://docs.haskellstack.org/en/stable/faq/">big faq page they have</a>. In about 15 seconds I see “I need to use a package (or version of a package) that is not available on hackage, what should I do?” and then:</p>
+<p>I’ve been busy doing Go programming at work and can’t recall the git syntax for Stack, so I’ll refer to this <a href="https://docs.haskellstack.org/en/stable/faq/">big FAQ page they have</a>. In about 15 seconds I see “I need to use a package (or version of a package) that is not available on Hackage, what should I do?” and then:</p>
 <pre><code>To install packages directly from a Git repository, use e.g.:
 
 resolver: lts-2.10
@@ -576,7 +576,7 @@ packages:
 - location:
     git: https://github.com/githubuser/reponame.git
     commit: somecommitID</code></pre>
-<p>So we can update our stack.yaml from above to:</p>
+<p>So we can update our <code>stack.yaml</code> from above to:</p>
 <div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">flags:</span> <span class="kw">{}</span>
 <span class="fu">extra-package-dbs:</span> <span class="kw">[]</span>
 <span class="fu">packages:</span>
@@ -673,7 +673,7 @@ Failed, modules loaded: none.
 &lt;no location info&gt;:
     Could not find module ‘Database.Cassandra.CQL’
     It is a member of the hidden package ‘cassandra-cql-0.6@cassa_FMk92m2DzAC8Q6AfWWp6qA’.</code></pre>
-<p>Whoa, it partially worked but then barfed on an error I have both not seen before and don’t know what it is. I have a hunch it’s something to do with multiple but different versions of cassandra-cql’s dependencies. So I’ll try something quick and easy, the equivalent of “turn it on and off again”:</p>
+<p>Whoa, it partially worked but then barfed on an error I’ve both not seen before and don’t currently know what it is. I have a hunch it’s something to do with multiple but different versions of cassandra-cql’s dependencies. So I’ll try something quick and easy, the equivalent of “turn it off and then on again”:</p>
 <pre><code>/tmp/test-cassandra-cql λ rm -r .stack-work/
 /tmp/test-cassandra-cql λ stack build 
 cassandra-cql-0.6: configure
@@ -755,7 +755,7 @@ Failed, modules loaded: none.
     Could not find module ‘Database.Cassandra.CQL’
     It is a member of the hidden package ‘cassandra-cql-0.6@cassa_FMk92m2DzAC8Q6AfWWp6qA’.
 Prelude&gt; </code></pre>
-<p>I somehow figured out that this issue is caused by these libraries being in our cabal file:</p>
+<p>After some reflection, figured out that this issue is caused by these libraries being in our Cabal file:</p>
 <pre><code>name:                test-cassandra-cql
 version:             0.1.0.0
 synopsis:            Simple project template from stack
@@ -809,7 +809,7 @@ executable test-cassandra-cql
                        text,
                        uuid,
                        random</code></pre>
-<p>Then run <code>stack ghci</code> again and you’ll see those errors went away (though we have a lot of warnings):</p>
+<p>Then run <code>stack ghci</code> again and you’ll see those errors have gone away (though we have a lot of warnings):</p>
 <pre><code>/tmp/test-cassandra-cql λ stack ghci
 test-cassandra-cql-0.1.0.0: build
 
@@ -934,7 +934,7 @@ Ok, modules loaded: Database.Cassandra.CQL.
     Use ‘'Rows’ instead of ‘Rows’.
 Ok, modules loaded: Database.Cassandra.CQL, Main.
 *Main Database.Cassandra.CQL&gt; </code></pre>
-<p>Now we can try to run our main function again:</p>
+<p>Now, we can try to run our main function again:</p>
 <pre><code>*Main Database.Cassandra.CQL&gt; main
 (CREATED,Keyspace &quot;TABLE&quot;,Table &quot;test1&quot;)
 
@@ -961,7 +961,7 @@ comment       : Just &quot;Singer Tom Araya&quot;
 
 Just (&quot;Evanescence&quot;,799)</code></pre>
 <p>And success!</p>
-<p>Part 2 will be a retrospective looking back at this process and how connecting to Cassandra in Haskell could be made easier for someone who might not have the luxury of time and patience that I had to get this working.</p>
+<p>Part 2 will be a retrospective reflecting on this process and how connecting to Cassandra in Haskell could be made easier for someone who might not have the luxury of time and patience that I had to get this working.</p>
 
         
     &nbsp;
