@@ -103,8 +103,7 @@ executable test-cassandra-cql
                        cassandra-cql
 ```
 
-
-[Stackage]() doesn't yet have cassandra-cql so it'll fail when we try to build. I'll run `stack solver --update-config` followed by `stack build` first. I also didn't yet have cabal-install installed so I'll add on `stack install cabal-install`:
+[Stackage](https://www.stackage.org/) doesn't yet have cassandra-cql so it'll fail when we try to build. I'll run `stack solver --update-config` followed by `stack build` first. I also didn't yet have cabal-install installed so I'll add on `stack install cabal-install`:
 
 ```
 /tmp/test-cassandra-cql λ stack install cabal-install && stack solver --update-config && stack build
@@ -413,9 +412,7 @@ Uh oh, we forgot to actually make a Cassandra server available. We can use Docke
 docker run -p 9042:9042 -p 9160:9160 -it --name some-cassandra cassandra:latest
 ```
 
-
 It should look something like this:
-
 
 ```
 /tmp/test-cassandra-cql λ docker run -p 9042:9042 -p 9160:9160 -it --name some-cassandra cassandra:latest
@@ -858,13 +855,10 @@ executable test-cassandra-cql
   default-language:    Haskell2010
   build-depends:       base >= 4.7 && < 5,
                        cassandra-cql,
-                       MonadCatchIO-transformers,
-                       monads-tf,
-                       bytestring,
-                       text,
-                       uuid,
                        random
 ```
+
+(update this only make stack ghci's errors go away, but stack build will fail to work. When you need to use stack build you'll want the previous cabal file contents. I'm going to submit a bug report to find out what the issue is here. For the purposes of this tutorial though and it's limited scope these instructions will work.)
 
 Then run `stack ghci` again and you'll see those errors have gone away (though we have a lot of warnings):
 
