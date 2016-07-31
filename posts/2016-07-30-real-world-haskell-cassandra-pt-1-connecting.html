@@ -162,7 +162,7 @@ executable test-cassandra-cql
   default-language:    Haskell2010
   build-depends:       base &gt;= 4.7 &amp;&amp; &lt; 5,
                        cassandra-cql</code></pre>
-<p><a href>Stackage</a> doesn’t yet have cassandra-cql so it’ll fail when we try to build. I’ll run <code>stack solver --update-config</code> followed by <code>stack build</code> first. I also didn’t yet have cabal-install installed so I’ll add on <code>stack install cabal-install</code>:</p>
+<p><a href="https://www.stackage.org/">Stackage</a> doesn’t yet have cassandra-cql so it’ll fail when we try to build. I’ll run <code>stack solver --update-config</code> followed by <code>stack build</code> first. I also didn’t yet have cabal-install installed so I’ll add on <code>stack install cabal-install</code>:</p>
 <pre><code>/tmp/test-cassandra-cql λ stack install cabal-install &amp;&amp; stack solver --update-config &amp;&amp; stack build
 Cabal-1.22.8.0: download
 Cabal-1.22.8.0: configure
@@ -804,12 +804,8 @@ executable test-cassandra-cql
   default-language:    Haskell2010
   build-depends:       base &gt;= 4.7 &amp;&amp; &lt; 5,
                        cassandra-cql,
-                       MonadCatchIO-transformers,
-                       monads-tf,
-                       bytestring,
-                       text,
-                       uuid,
                        random</code></pre>
+<p>(update this only make stack ghci’s errors go away, but stack build will fail to work. When you need to use stack build you’ll want the previous cabal file contents. I’m going to submit a bug report to find out what the issue is here. For the purposes of this tutorial though and it’s limited scope these instructions will work.)</p>
 <p>Then run <code>stack ghci</code> again and you’ll see those errors have gone away (though we have a lot of warnings):</p>
 <pre><code>/tmp/test-cassandra-cql λ stack ghci
 test-cassandra-cql-0.1.0.0: build
