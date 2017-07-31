@@ -6,7 +6,7 @@ category:
 tags: [Haskell vector]
 ---
 
-Github source for code/data: https://github.com/codygman/faster-command-line-tools-with-haskell
+[Click here for source of code used in this post](https://github.com/codygman/faster-command-line-tools-with-haskell)
 
 Inspired by [Faster command line tools with Go](https://aadrake.com/posts/2017-05-29-faster-command-line-tools-with-go.html) which itself was inspired by [Faster Command Line Tools in D](http://dlang.org/blog/2017/05/24/faster-command-line-tools-in-d/).
 

@@ -81,9 +81,9 @@
 
 <p>I’m aware there are solutions made to avoid this, but I found myself in the situation of only having data in mysql backups. Hopefully the following will be useful to others who fall into the same situation.</p>
 <h3 id="generate-mysqldump-of-the-remote-database">Generate mysqldump of the remote database:</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="kw">mysqldump</span> -u cody -h corys.dbserver.com -pmypassword name_of_database</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">mysqldump</span> -u cody -h corys.dbserver.com -pmypassword name_of_database</code></pre></div>
 <h3 id="create-the-database-on-the-same-server-as-the-database-data-is-being-migrated-to.">Create the database on the same server as the database data is being migrated to.</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="kw">mysqadmin</span> create dump_db</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">mysqadmin</span> create dump_db</code></pre></div>
 <h3 id="insert-the-data">Insert the data</h3>
 <div class="sourceCode"><pre class="sourceCode sql"><code class="sourceCode sql">    # <span class="kw">disable</span> <span class="kw">foreign</span> <span class="kw">key</span> checks
     <span class="kw">set</span> foreign_key_checks = <span class="dv">0</span>;
@@ -95,8 +95,8 @@
     # <span class="kw">enable</span> <span class="kw">foreign</span> <span class="kw">key</span> checks again
     <span class="kw">set</span> foreign_key_checks = <span class="dv">1</span>;</code></pre></div>
 <h3 id="test-that-the-data-works-in-the-django-shell">Test that the data works in the Django shell</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="kw">python</span> manage.py shell</code></pre></div>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">    In [<span class="dv">14</span>]: [g.genre <span class="cf">for</span> g <span class="op">in</span> Movie.objects.<span class="bu">filter</span>(title<span class="op">=</span><span class="st">&quot;transformers&quot;</span>)[<span class="dv">0</span>].movie_genre.<span class="bu">all</span>()]
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">    <span class="ex">python</span> manage.py shell</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">    In [<span class="dv">14</span>]: [g.genre <span class="cf">for</span> g <span class="kw">in</span> Movie.objects.<span class="bu">filter</span>(title<span class="op">=</span><span class="st">&quot;transformers&quot;</span>)[<span class="dv">0</span>].movie_genre.<span class="bu">all</span>()]
     Out[<span class="dv">14</span>]: 
     [<span class="op">&lt;</span>Genre: Action<span class="op">&gt;</span>,
      <span class="op">&lt;</span>Genre: Adventure<span class="op">&gt;</span>,
