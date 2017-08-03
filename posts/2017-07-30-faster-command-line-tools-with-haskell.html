@@ -79,7 +79,7 @@
 </div>
 <br />
 
-<p><strong>Retraction/Update</strong> : The Haskell program at the end of this article was not faster. Friends don’t let friends benchmark after dark. I seem to have made a benchmarking mistake and measured the total time of the benchmark in the Go program vs one iteration of the Haskell program. I was in a hurry for this entire post and rushed through a few pieces of it due to time constraints. If I’d had more time, I would have written a Criterion benchmark for both the Go and Haskell program. In the future I think I’ll do so to reduce the possibility of mistakes like this.</p>
+<p><strong>Retraction/Update</strong> : The high-level Haskell program at the end of this article was not faster than the low-level Go program. Please feel free to follow the journey of profiling a Haskell program and increasing its performance. Friends don’t let friends benchmark after dark. I seem to have made a benchmarking mistake and measured the total time of the benchmark in the Go program vs one iteration of the Haskell program. I was in a hurry for this entire post and rushed through a few pieces of it due to time constraints. If I’d had more time, I would have written a Criterion benchmark for both the Go and Haskell program. In the future I think I’ll do so to reduce the possibility of mistakes like this. Enjoy the rest of the post! </p>
 <p>Inspired by <a href="https://aadrake.com/posts/2017-05-29-faster-command-line-tools-with-go.html">Faster command line tools with Go</a> which itself was inspired by <a href="http://dlang.org/blog/2017/05/24/faster-command-line-tools-in-d/">Faster Command Line Tools in D</a>.</p>
 <p>The original problem statement:</p>
 <blockquote>
