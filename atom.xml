@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>Real World Haskell with codygman</title>
+    <link href="https://codygman.github.io/atom.xml" rel="self" />
+    <link href="https://codygman.github.io" />
+    <id>https://codygman.github.io/atom.xml</id>
+    <author>
+        <name>Cody Goodman</name>
+        <email>codygman.consulting@gmail.com</email>
+    </author>
+    <updated>2017-07-30T00:00:00Z</updated>
+    <entry>
+    <title>Faster command line tools with Haskell</title>
+    <link href="https://codygman.github.io/posts/2017-07-30-faster-command-line-tools-with-haskell.html" />
+    <id>https://codygman.github.io/posts/2017-07-30-faster-command-line-tools-with-haskell.html</id>
+    <published>2017-07-30T00:00:00Z</published>
+    <updated>2017-07-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[Initial research and implementation of GroupBy for Haskell's vector library]]></summary>
+</entry>
+<entry>
+    <title>Real World Haskell - Cassandra Part 1 - Connecting to Cassandra</title>
+    <link href="https://codygman.github.io/posts/2016-07-30-real-world-haskell-cassandra-pt-1-connecting.html" />
+    <id>https://codygman.github.io/posts/2016-07-30-real-world-haskell-cassandra-pt-1-connecting.html</id>
+    <published>2016-07-30T00:00:00Z</published>
+    <updated>2016-07-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A reproducible diary of my failures (and eventual success) in connecting to Cassandra with Haskell]]></summary>
+</entry>
+<entry>
+    <title>A simple and quick text parsing tutorial using Haskell</title>
+    <link href="https://codygman.github.io/posts/2015-03-06-simple-quick-text-parsing-with-haskell.html" />
+    <id>https://codygman.github.io/posts/2015-03-06-simple-quick-text-parsing-with-haskell.html</id>
+    <published>2015-03-06T00:00:00Z</published>
+    <updated>2015-03-06T00:00:00Z</updated>
+    <summary type="html"><![CDATA[A simple and quick text parsing tutorial using Haskell]]></summary>
+</entry>
+<entry>
+    <title>Haskell and PDF Generation with HPDF</title>
+    <link href="https://codygman.github.io/posts/2014-02-11-haskell-and-pdf-generation-with-hpdf.html" />
+    <id>https://codygman.github.io/posts/2014-02-11-haskell-and-pdf-generation-with-hpdf.html</id>
+    <published>2014-02-11T00:00:00Z</published>
+    <updated>2014-02-11T00:00:00Z</updated>
+    <summary type="html"><![CDATA[]]></summary>
+</entry>
+<entry>
+    <title>Read an integer list in Haskell</title>
+    <link href="https://codygman.github.io/posts/2013-12-24-read-an-integer-list-in-haskell.html" />
+    <id>https://codygman.github.io/posts/2013-12-24-read-an-integer-list-in-haskell.html</id>
+    <published>2013-12-24T00:00:00Z</published>
+    <updated>2013-12-24T00:00:00Z</updated>
+    <summary type="html"><![CDATA[]]></summary>
+</entry>
+<entry>
+    <title>Network.URL and fmap fun in haskell</title>
+    <link href="https://codygman.github.io/posts/2013-12-17-networkurl-and-fmap-fun-in-haskell.html" />
+    <id>https://codygman.github.io/posts/2013-12-17-networkurl-and-fmap-fun-in-haskell.html</id>
+    <published>2013-12-17T00:00:00Z</published>
+    <updated>2013-12-17T00:00:00Z</updated>
+    <summary type="html"><![CDATA[]]></summary>
+</entry>
+<entry>
+    <title>Getting the length of a webpage with haskell</title>
+    <link href="https://codygman.github.io/posts/2013-12-16-getting-the-length-of-a-webpage-with-haskell.html" />
+    <id>https://codygman.github.io/posts/2013-12-16-getting-the-length-of-a-webpage-with-haskell.html</id>
+    <published>2013-12-16T00:00:00Z</published>
+    <updated>2013-12-16T00:00:00Z</updated>
+    <summary type="html"><![CDATA[]]></summary>
+</entry>
+<entry>
+    <title>Migrating mysql data across schemas in Django (or anything else)</title>
+    <link href="https://codygman.github.io/posts/2013-05-23-migrating-mysql-data-across-schemas-in-django.html" />
+    <id>https://codygman.github.io/posts/2013-05-23-migrating-mysql-data-across-schemas-in-django.html</id>
+    <published>2013-05-23T00:00:00Z</published>
+    <updated>2013-05-23T00:00:00Z</updated>
+    <summary type="html"><![CDATA[]]></summary>
+</entry>
+<entry>
+    <title>My first post</title>
+    <link href="https://codygman.github.io/posts/2013-05-21-my-first-post.html" />
+    <id>https://codygman.github.io/posts/2013-05-21-my-first-post.html</id>
+    <published>2013-05-21T00:00:00Z</published>
+    <updated>2013-05-21T00:00:00Z</updated>
+    <summary type="html"><![CDATA[My first experiences with using jekyll/github as a blog]]></summary>
+</entry>
+
+</feed>
